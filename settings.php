@@ -1118,16 +1118,38 @@ $userData['currency_symbol'] = $currencies[$main_currency]['symbol'];
                 </select>
             </div>
             <div class="form-group">
-                <label for="ai_run_schedule" class="flex"><?= translate('run_schedule', $i18n) ?>: <span
-                        class="info-badge"><?= translate("coming_soon", $i18n) ?></span></span></label>
-                <select id="ai_run_schedule" name="ai_run_schedule" disabled>
-                    <option value="manual" <?= (isset($aiSettings['run_schedule']) && $aiSettings['run_schedule'] == 'manual') ? 'selected' : '' ?>><?= translate('manually', $i18n) ?>
+                <label for="ai_run_schedule"><?= translate('run_schedule', $i18n) ?>:</label>
+                <select id="ai_run_schedule" name="ai_run_schedule" onchange="saveAiRunSchedule()">
+                    <option value="manual" <?= (!isset($aiSettings['run_schedule']) || $aiSettings['run_schedule'] == 'manual') ? 'selected' : '' ?>><?= translate('manually', $i18n) ?>
                     </option>
-                    <option value="weekly" <?= (isset($aiSettings['run_schedule']) && $aiSettings['run_schedule'] == 'weekly') ? 'selected' : '' ?>><?= translate('Weekly', $i18n) ?>
-                    </option>
-                    <option value="monthly" <?= (isset($aiSettings['run_schedule']) && $aiSettings['run_schedule'] == 'monthly') ? 'selected' : '' ?>><?= translate('Monthly', $i18n) ?>
+                    <option value="automatic" <?= (isset($aiSettings['run_schedule']) && $aiSettings['run_schedule'] == 'automatic') ? 'selected' : '' ?>>
+                        <?= translate('automatic', $i18n) ?>
                     </option>
                 </select>
+                <script>
+                    function saveAiRunSchedule() {
+                        var schedule = document.getElementById('ai_run_schedule').value;
+                        fetch('endpoints/ai/save_schedule.php', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-Token': window.csrfToken
+                            },
+                            body: JSON.stringify({ run_schedule: schedule })
+                        })
+                            .then(function (r) { return r.json(); })
+                            .then(function (data) {
+                                if (data.success) {
+                                    showSuccessMessage(data.message);
+                                } else {
+                                    showErrorMessage(data.message);
+                                }
+                            })
+                            .catch(function () {
+                                showErrorMessage('Error');
+                            });
+                    }
+                </script>
             </div>
             <div class="buttons wrap mobile-reverse">
                 <?php

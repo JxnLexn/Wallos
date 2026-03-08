@@ -30,7 +30,7 @@ function saveBudget() {
       'Content-Type': 'application/json',
       'X-CSRF-Token': window.csrfToken,
     },
-    body: JSON.stringify({budget: budget}),
+    body: JSON.stringify({ budget: budget }),
   })
     .then(response => response.json())
     .then(data => {
@@ -60,7 +60,7 @@ function addMemberButton(memberId) {
       "Content-Type": "application/x-www-form-urlencoded",
       'X-CSRF-Token': window.csrfToken,
     },
-    body: new URLSearchParams({action: "add"}),
+    body: new URLSearchParams({ action: "add" }),
   })
     .then(response => {
       if (!response.ok) {
@@ -218,7 +218,7 @@ function addCategoryButton(categoryId) {
       'Content-Type': 'application/x-www-form-urlencoded',
       'X-CSRF-Token': window.csrfToken,
     },
-    body: new URLSearchParams({action: 'add'}),
+    body: new URLSearchParams({ action: 'add' }),
   })
     .then(response => {
       if (!response.ok) {
@@ -375,7 +375,7 @@ function addCurrencyButton(currencyId) {
       'Content-Type': 'application/x-www-form-urlencoded',
       'X-CSRF-Token': window.csrfToken,
     },
-    body: new URLSearchParams({action: 'add'}),
+    body: new URLSearchParams({ action: 'add' }),
   })
     .then(response => {
       if (!response.ok) {
@@ -799,7 +799,7 @@ function deletePaymentMethod(paymentId) {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-       "X-CSRF-Token": window.csrfToken,
+      "X-CSRF-Token": window.csrfToken,
     },
     body: JSON.stringify({ id: paymentId }),
   })
@@ -912,7 +912,7 @@ function addFixerKeyButton() {
             "Content-Type": "application/x-www-form-urlencoded",
             'X-CSRF-Token': window.csrfToken,
           },
-          body: new URLSearchParams({force: "true"}),
+          body: new URLSearchParams({ force: "true" }),
         }).catch(console.error);
       } else {
         showErrorMessage(data.message);
@@ -1012,7 +1012,7 @@ function saveCategorySorting() {
 
   fetch("endpoints/categories/category.php", {
     method: "POST",
-    headers: {"X-CSRF-Token": window.csrfToken},
+    headers: { "X-CSRF-Token": window.csrfToken },
     body: formData,
   })
     .then(response => response.json())
@@ -1096,6 +1096,7 @@ function saveAiSettingsButton() {
   const aiApiKey = document.querySelector("#ai_api_key").value.trim();
   const aiOllamaHost = document.querySelector("#ai_ollama_host").value.trim();
   const aiModel = document.querySelector("#ai_model").value;
+  const aiRunSchedule = document.querySelector("#ai_run_schedule").value;
 
   fetch('endpoints/ai/save_settings.php', {
     method: 'POST',
@@ -1103,7 +1104,7 @@ function saveAiSettingsButton() {
       'Content-Type': 'application/json',
       'X-CSRF-Token': window.csrfToken,
     },
-    body: JSON.stringify({ ai_enabled: aiEnabled, ai_type: aiType, api_key: aiApiKey, ollama_host: aiOllamaHost, model: aiModel })
+    body: JSON.stringify({ ai_enabled: aiEnabled, ai_type: aiType, api_key: aiApiKey, ollama_host: aiOllamaHost, model: aiModel, run_schedule: aiRunSchedule })
   })
     .then(response => response.json())
     .then(data => {
