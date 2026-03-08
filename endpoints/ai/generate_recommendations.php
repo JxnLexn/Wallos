@@ -93,7 +93,7 @@ if ($type == 'ollama') {
 }
 
 // We have everything we need, fetch information from the dabase to send to the AI API
-// Get the categories from the database for user with ID 1
+// Get the categories from the database for the current user
 $stmt = $db->prepare("SELECT * FROM categories WHERE user_id = :user_id");
 $stmt->bindValue(':user_id', $userId, SQLITE3_INTEGER);
 $result = $stmt->execute();
@@ -102,7 +102,7 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
     $categories[$row['id']] = $row;
 }
 
-// Get the currencies from the database for user with ID 1
+// Get the currencies from the database for the current user
 $stmt = $db->prepare("SELECT * FROM currencies WHERE user_id = :user_id");
 $stmt->bindValue(':user_id', $userId, SQLITE3_INTEGER);
 $result = $stmt->execute();
@@ -111,7 +111,7 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
     $currencies[$row['id']] = $row;
 }
 
-// Get houswhold members from the database for user with ID 1
+// Get household members from the database for the current user
 $stmt = $db->prepare("SELECT * FROM household WHERE user_id = :user_id");
 $stmt->bindValue(':user_id', $userId, SQLITE3_INTEGER);
 $result = $stmt->execute();
@@ -130,7 +130,7 @@ $userLanguage = $result->fetchArray(SQLITE3_ASSOC)['language'] ?? 'en';
 require_once '../../includes/i18n/languages.php';
 $userLanguageName = $languages[$userLanguage]['name'] ?? 'English';
 
-// Get subscriptions from the database for user with ID 1
+// Get subscriptions from the database for the current user
 $stmt = $db->prepare("SELECT * FROM subscriptions WHERE user_id = :user_id AND inactive = 0");
 $stmt->bindValue(':user_id', $userId, SQLITE3_INTEGER);
 $result = $stmt->execute();

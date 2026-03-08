@@ -54,11 +54,11 @@ while ($nextPaymentDate < $currentDate || $nextPaymentDate == new DateTime($subs
 }
 
 // Update the subscription's next_payment date
-$updateQuery = "UPDATE subscriptions SET next_payment = :nextPaymentDate WHERE id = :subscriptionId";
+$updateQuery = "UPDATE subscriptions SET next_payment = :nextPaymentDate WHERE id = :subscriptionId AND user_id = :userId";
 $updateStmt = $db->prepare($updateQuery);
 $updateStmt->bindValue(':nextPaymentDate', $nextPaymentDate->format('Y-m-d'));
 $updateStmt->bindValue(':subscriptionId', $subscriptionId);
-$updateStmt->execute();
+$updateStmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
 
 if ($updateStmt->execute()) {
     $response = [

@@ -5,7 +5,11 @@ require_once '../../includes/validate_endpoint.php';
 $postData = file_get_contents("php://input");
 $data = json_decode($postData, true);
 
-$subscriptionId = $data["id"];
+$subscriptionId = isset($data["id"]) ? (int) $data["id"] : 0;
+if ($subscriptionId <= 0) {
+    echo json_encode(["success" => false, "message" => translate('error', $i18n)]);
+    exit;
+}
 $deleteQuery = "DELETE FROM subscriptions WHERE id = :subscriptionId AND user_id = :userId";
 $deleteStmt = $db->prepare($deleteQuery);
 $deleteStmt->bindParam(':subscriptionId', $subscriptionId, SQLITE3_INTEGER);

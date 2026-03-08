@@ -51,7 +51,7 @@ function getLogoFromUrl($url, $uploadDir, $name, $settings, $i18n)
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_TIMEOUT, 5);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
-        
+
         curl_setopt($ch, CURLOPT_RESOLVE, ["$host:$port:$ip"]);
 
         $imageData = curl_exec($ch);
@@ -118,8 +118,6 @@ function saveLogo($imageData, $uploadFile, $name, $settings)
                     imagesavealpha($newImage, true);
                     $transparent = imagecolorallocatealpha($newImage, 0, 0, 0, 127);
                     imagefill($newImage, 0, 0, $transparent);  // Fill the entire image with transparency
-                    imagepng($newImage, $uploadFile);
-                    imagedestroy($newImage);
                 }
                 imagepng($newImage, $uploadFile);
                 imagedestroy($newImage);

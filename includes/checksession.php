@@ -20,7 +20,6 @@ if (isset($_GET['code']) && isset($_GET['state'])) {
         $stmt->bindValue(':username', $username, SQLITE3_TEXT);
         $result = $stmt->execute();
         $userData = $result->fetchArray(SQLITE3_ASSOC);
-        $userId = $userData['id'];
 
         if ($userData === false) {
             header('Location: logout.php');
@@ -28,6 +27,7 @@ if (isset($_GET['code']) && isset($_GET['state'])) {
         } else {
             $_SESSION['userId'] = $userData['id'];
         }
+        $userId = $userData['id'];
 
         if ($userData['avatar'] == "") {
             $userData['avatar'] = "0";
